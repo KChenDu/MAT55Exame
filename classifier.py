@@ -32,34 +32,35 @@ class Classifier:
         self.class_number = len(labels)
         self.param_number = param_number
 
-    def train(self, training_data, training_results):
+    def train(self, training_data, training_targets):
         """
         :param training_data: numpy array of parameters
-        :param training_results: list of target labels
+        :param training_targets: list of target labels
         """
-        if training_data.size < 1 or len(training_results) < 1:
+        if training_data.size < 1 or len(training_targets) < 1:
             print("Data size must be greater than zero.\n")
             return
-        if training_data.shape[0] != len(training_results):
+        if training_data.shape[0] != len(training_targets):
             print("Data size doesn't match result size.\n")
             return
         if training_data.shape[1] != self.param_number:
             print("Data size doesn't match parameter number.\n")
             return
-        for training_result in training_results:
+        for training_result in training_targets:
             if training_result not in self.labels:
                 print("There is a not specified class.\n")
                 return
-        data_size = len(training_results)
-        training_data = np.append(training_data, np.ones((data_size, 1)))
+        data_size = len(training_targets)
+        training_data = np.append(training_data, np.ones((data_size, 1)), axis=1)
         b = np.empty(data_size)
         for i in range(self.class_number):
             for j in range(data_size):
-                if training_results[j] == self.labels[i]:
+                if training_targets[j] == self.labels[i]:
                     b[j] = 1
                 else:
                     b[j] = -1
             self.f[i] = self.solve(training_data, b)
+        print(self.f)
 
     def evaluate(self, data):
         n_rows = data.shape[0]

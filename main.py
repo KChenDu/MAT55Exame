@@ -1,15 +1,13 @@
+from utils import *
 from classifier import Classifier
 
 
-Classifier()
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    data, target = getData('data/glass.csv')
+    classes = list(dict.fromkeys(target))
+    classifier = Classifier(classes, data[0].size)
+    training_data, training_target, test_data, test_target = split(data, target, 0.9)
+    classifier.train(training_data, training_target)
+    predicted = classifier.evaluate(test_data)
+    print(test_target)
+    print(predicted)
