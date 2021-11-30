@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.linalg import lstsq
 
 
 def house(x):
@@ -62,3 +63,8 @@ def householder(A, b):
         solution[i:] -= np.array((d[i] * v.T * v * np.matrix(solution[i:]).T).T)[0]
     n = min(m, n)
     return backsub(R[:n, :n], solution[:n])
+
+def scipy_lstsq(A, b):
+    p, res, rnk, s = lstsq(A, b)
+
+    return p

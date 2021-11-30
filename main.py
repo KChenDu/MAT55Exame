@@ -11,3 +11,9 @@ if __name__ == '__main__':
     predicted = classifier.evaluate(test_data)
     print(test_target)
     print(predicted)
+
+    classifier = Classifier(classes, data[0].size, "scipy_lstsq")
+    classifier.train(training_data, training_target)
+    predicted = classifier.evaluate(test_data)
+    print(test_target)
+    print(predicted)

@@ -1,5 +1,6 @@
 import numpy as np
 from algorithms import householder
+from algorithms import scipy_lstsq
 
 
 class Classifier:
@@ -15,7 +16,7 @@ class Classifier:
         if param_number < 1:
             print("Number of parameters must be grater than 0.\n")
             return
-        if algorithm not in ('householder', 'givens', 'gram-schmidt'):
+        if algorithm not in ('householder', 'givens', 'gram-schmidt', 'scipy_lstsq'):
             print("Please enter a valid algorithm.\n")
             return
         if algorithm == 'householder':
@@ -24,6 +25,8 @@ class Classifier:
             pass
         elif algorithm == 'gram-schimidt':
             pass
+        elif algorithm == 'scipy_lstsq':
+            self.solve = scipy_lstsq
         else:
             print("Please enter a valid algorithm.\n")
             return
@@ -80,5 +83,8 @@ class Classifier:
         elif algorithm == 'givens':
             return
         elif algorithm == 'gram-schimidt':
+            return
+        elif algorithm == 'givens':
+            self.solve = scipy_lstsq
             return
         print("Please enter a valid algorithm.\n")
