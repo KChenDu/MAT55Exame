@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.linalg import lstsq
+from scipy.linalg import qr
 
 
 def house(x):
@@ -63,6 +64,13 @@ def householder(A, b):
         solution[i:] -= np.array((d[i] * v.T * v * np.matrix(solution[i:]).T).T)[0]
     n = min(m, n)
     return backsub(R[:n, :n], solution[:n])
+
+def scipy_qr(A, b):
+    Q, R = qr(A)
+    m, n = A.shape
+    y = np.transpose(Q) @ b
+    n = min(m, n)
+    return backsub(R[:n, :n], y[:n])
 
 def scipy_lstsq(A, b):
     p, res, rnk, s = lstsq(A, b)
