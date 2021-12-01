@@ -66,7 +66,7 @@ class Classifier:
                 else:
                     b[j] = -1
             self.f[i] = self.solve(training_data, b)
-        print(self.f)
+        # print(self.f)
 
     def evaluate(self, data):
         n_rows = data.shape[0]
