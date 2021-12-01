@@ -20,12 +20,12 @@ F1-score: It combines precision and recall into a single measure. Mathematically
     F1-score = 2 * (precision * recall) / (precision + recall)
 '''
 
-def get_confusion_matrix(target, predicted):
-    cm = confusion_matrix(target, predicted, labels = ["1", "2", "3", "4", "5", "6", "7" ])
-    mcm = multilabel_confusion_matrix(target, predicted)
+def get_confusion_matrix(target, predicted, labels):
+    cm = confusion_matrix(target, predicted, labels = labels)
+    mcm = multilabel_confusion_matrix(target, predicted, labels = labels)
     # print (cm)
     # print (mcm)
-    print(classification_report(target, predicted, labels = ["1", "2", "3", "4", "5", "6", "7" ], zero_division = 1))
+    print(classification_report(target, predicted, labels = labels, zero_division = 1))
 
     tn = mcm[:, 0, 0]
     tp = mcm[:, 1, 1]
@@ -64,13 +64,14 @@ if __name__ == '__main__':
     print("--------------------------------------------------------------------------------------")
     data, target = getData('data/glass.csv')
     classes = list(dict.fromkeys(target))
+    labels = [str(int) for int in classes] 
     classifier = Classifier(classes, data[0].size)
     training_data, training_target, test_data, test_target = split(data, target, 0.9)
     classifier.train(training_data, training_target)
     predicted = classifier.evaluate(test_data)
     print(test_target)
     print(predicted)
-    get_confusion_matrix(test_target, predicted)
+    get_confusion_matrix(test_target, predicted, labels)
 
     print("--------------------------------------------------------------------------------------")
     print("2. Using scipy least sqrt algorithm")
@@ -80,7 +81,7 @@ if __name__ == '__main__':
     predicted = classifier.evaluate(test_data)
     print(test_target)
     print(predicted)
-    get_confusion_matrix(test_target, predicted)
+    get_confusion_matrix(test_target, predicted, labels)
 
     print("--------------------------------------------------------------------------------------")
     print("3. Similar to 1, but use scipy for QR decomposition")
@@ -90,4 +91,4 @@ if __name__ == '__main__':
     predicted = classifier.evaluate(test_data)
     print(test_target)
     print(predicted)
-    get_confusion_matrix(test_target, predicted)
+    get_confusion_matrix(test_target, predicted, labels)
