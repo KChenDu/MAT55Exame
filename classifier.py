@@ -17,9 +17,6 @@ class Classifier:
         if param_number < 1:
             print("Number of parameters must be grater than 0.\n")
             return
-        if algorithm not in ('householder', 'givens', 'gram-schmidt', 'scipy_lstsq', 'scipy_qr'):
-            print("Please enter a valid algorithm.\n")
-            return
         if algorithm == 'householder':
             self.solve = householder
         elif algorithm == 'givens':

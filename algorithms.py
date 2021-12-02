@@ -9,7 +9,7 @@ def house(x):
     v = np.empty(x.size)
     v[1:] = x[1:]
     sigma = np.inner(x[1:], x[1:])
-    if sigma < 1e-12:
+    if sigma < 1e-32:
         beta = 0
     else:
         alpha = np.sqrt(x[0] ** 2 + sigma)
@@ -36,7 +36,7 @@ def qr_householder(A):
 
 
 def backsub(U, y):
-    tol = 1e-12
+    tol = 1e-32
     n = y.size
     for j in range(n - 1, 0, -1):
         if abs(U[j, j]) < tol:
@@ -53,8 +53,8 @@ def backsub(U, y):
 
 
 def householder(A, b):
-    R, d = qr_householder(A[:, :])
-    solution = b[:]
+    R, d = qr_householder(A.copy())
+    solution = b.copy()
     m, n = A.shape
     for i in range(n):
         v = np.empty(m - i)
@@ -65,12 +65,14 @@ def householder(A, b):
     n = min(m, n)
     return backsub(R[:n, :n], solution[:n])
 
+
 def scipy_qr(A, b):
     Q, R = qr(A)
     m, n = A.shape
     y = np.transpose(Q) @ b
     n = min(m, n)
     return backsub(R[:n, :n], y[:n])
+
 
 def scipy_lstsq(A, b):
     p, res, rnk, s = lstsq(A, b)

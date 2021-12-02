@@ -1,7 +1,7 @@
 import numpy as np
 from classifier import Classifier
+from algorithms import householder
 
-'''
 A = np.array([[0, 0.7, 1],
              [-0.7, 0, 0.7],
              [-1, -0.7, 0],
@@ -20,11 +20,6 @@ A = np.array([[0, 0.7, 1],
              [-0.7, 1.0, -0.7]])
 
 b = np.array([0.7, 0, -0.7, -1, -0.7, 0, 0.7, 1.0, 0, 0, 0, 0, 0, 0, 0, 0])
-'''
 
-a = np.ones((1, 3))
-print(a)
-M = np.array([[0,0,0]])
-print(M)
-M[0] = a
-print(M)
+print(householder(A, b))
+print(np.linalg.lstsq(A, b)[0])

@@ -1,9 +1,6 @@
 from utils import *
 from classifier import Classifier
-import pandas as pd
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import multilabel_confusion_matrix
-from sklearn.metrics import classification_report
+import time
 
 '''
 Accuracy: It gives you the overall accuracy of the model, meaning the fraction of the total samples that were correctly classified by the classifier. To calculate accuracy, use the following formula: (TP+TN)/(TP+TN+FP+FN).
@@ -20,19 +17,7 @@ F1-score: It combines precision and recall into a single measure. Mathematically
     F1-score = 2 * (precision * recall) / (precision + recall)
 '''
 
-def get_confusion_matrix(target, predicted, labels):
-    cm = confusion_matrix(target, predicted, labels = labels)
-    mcm = multilabel_confusion_matrix(target, predicted, labels = labels)
-    # print (cm)
-    # print (mcm)
-    print(classification_report(target, predicted, labels = labels, zero_division = 1))
 
-    tn = mcm[:, 0, 0]
-    tp = mcm[:, 1, 1]
-    fn = mcm[:, 1, 0]
-    fp = mcm[:, 0, 1]
-    np.seterr(divide = 'ignore', invalid = 'ignore')
-    n = tn + tp + fn + fp
 
 '''
     print("--------------------------------------------------------------------------------------")
@@ -67,7 +52,9 @@ if __name__ == '__main__':
     labels = [str(int) for int in classes] 
     classifier = Classifier(classes, data[0].size)
     training_data, training_target, test_data, test_target = split(data, target, 0.9)
+    start_time = time.time()
     classifier.train(training_data, training_target)
+    print(f"time used: {time.time() - start_time}")
     predicted = classifier.evaluate(test_data)
     print(test_target)
     print(predicted)
@@ -77,7 +64,9 @@ if __name__ == '__main__':
     print("2. Using scipy least sqrt algorithm")
     print("--------------------------------------------------------------------------------------")
     classifier = Classifier(classes, data[0].size, "scipy_lstsq")
+    start_time = time.time()
     classifier.train(training_data, training_target)
+    print(f"time used: {time.time() - start_time}")
     predicted = classifier.evaluate(test_data)
     print(test_target)
     print(predicted)
@@ -87,7 +76,9 @@ if __name__ == '__main__':
     print("3. Similar to 1, but use scipy for QR decomposition")
     print("--------------------------------------------------------------------------------------")
     classifier = Classifier(classes, data[0].size, "scipy_qr")
+    start_time = time.time()
     classifier.train(training_data, training_target)
+    print(f"time used: {time.time() - start_time}")
     predicted = classifier.evaluate(test_data)
     print(test_target)
     print(predicted)
