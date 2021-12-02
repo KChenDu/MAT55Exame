@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.linalg import lstsq
 from scipy.linalg import qr
+from scipy.linalg import inv
 
 
 def house(x):
@@ -64,6 +65,48 @@ def householder(A, b):
         solution[i:] -= np.array((d[i] * v.T * v * np.matrix(solution[i:]).T).T)[0]
     n = min(m, n)
     return backsub(R[:n, :n], solution[:n])
+
+def householder2(a, b):
+    A = a.copy()
+    m, n = A.shape
+    u = np.zeros((m, n))
+    e1 = np.zeros((m, 1))
+    e1[1] = 1
+    for j in range(n):
+        x = np.asmatrix(A[j:m, j]).T
+        print("e1: ", e1[0:(m-j)].shape)
+        print("x: ", x.shape)
+        s = 1
+        if x[1] <= 0:
+            s = -1
+        uj = x + s * np.linalg.norm(x) * e1[0:(m-j)]
+        uj = uj / np.linalg.norm(uj)
+        print("uj: ", uj.shape)
+        print("A: ", A[j:m, j:n].shape)
+        A[j:m, j:n] = A[j:m, j:n] - 2 * uj @ (uj.T @ A[j:m, j:n])
+        u[j:m, j] = uj.transpose()
+
+    y = np.asmatrix(b).T
+    print("y: ", y.shape)
+    for k in range(n):
+        print("u: ", u[k:m, k:k+1].shape)
+        y[k:m] = y[k:m] - 2 * u[k:m, k:k+1] @ (u[k:m, k:k+1].T @ y[k:m])
+
+    n = min(m, n)
+    # Aqui to usando a inversa, mas o resultado sai bem melhor
+    # tentei usar o backsub, mas tah dando algo errado
+    x =  inv(A[0:n, 0:n]) @ y[0:n]
+    # x = np.squeeze(np.asarray(x))
+    print("A: ", A[:n, :n].shape)
+    print("A: ", A[:n, :n])
+    # y = np.squeeze(np.asarray(y))
+    # x = backsub(A[0:n, 0:n], y[0:n])
+
+    x = np.squeeze(np.asarray(x))
+    print("x: ", x.shape)
+
+    return x
+
 
 
 def scipy_qr(A, b):

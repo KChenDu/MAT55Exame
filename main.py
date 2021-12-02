@@ -19,28 +19,6 @@ F1-score: It combines precision and recall into a single measure. Mathematically
 
 
 
-'''
-    print("--------------------------------------------------------------------------------------")
-    print("error rate")
-    er = (fn + fp) / n
-    print(er)
-    print("--------------------------------------------------------------------------------------")
-    print("true positive rate / recall")
-    tpr = tp / (tp + fn)
-    print(tpr)
-    print("--------------------------------------------------------------------------------------")
-    print("false positive rate")
-    tpr = tp / (fp + tn)
-    print(tpr)
-    print("--------------------------------------------------------------------------------------")
-    print("specifity")
-    s = tn / (tn + fp)
-    print(s)
-    print("--------------------------------------------------------------------------------------")
-    print("precision")
-    s = tp / (tp + fp)
-    print(s)
-'''
             
 
 if __name__ == '__main__':

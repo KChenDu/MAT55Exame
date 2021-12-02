@@ -1,5 +1,6 @@
 import numpy as np
 from algorithms import householder
+from algorithms import householder2
 from algorithms import scipy_lstsq
 from algorithms import scipy_qr
 
@@ -18,7 +19,7 @@ class Classifier:
             print("Number of parameters must be grater than 0.\n")
             return
         if algorithm == 'householder':
-            self.solve = householder
+            self.solve = householder2
         elif algorithm == 'givens':
             pass
         elif algorithm == 'gram-schimidt':

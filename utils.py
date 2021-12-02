@@ -34,9 +34,31 @@ def get_confusion_matrix(target, predicted, labels):
     # print (mcm)
     print(classification_report(target, predicted, labels = labels, zero_division = 1))
 
+'''
     tn = mcm[:, 0, 0]
     tp = mcm[:, 1, 1]
     fn = mcm[:, 1, 0]
     fp = mcm[:, 0, 1]
     np.seterr(divide = 'ignore', invalid = 'ignore')
     n = tn + tp + fn + fp
+    print("--------------------------------------------------------------------------------------")
+    print("error rate")
+    er = (fn + fp) / n
+    print(er)
+    print("--------------------------------------------------------------------------------------")
+    print("true positive rate / recall")
+    tpr = tp / (tp + fn)
+    print(tpr)
+    print("--------------------------------------------------------------------------------------")
+    print("false positive rate")
+    tpr = tp / (fp + tn)
+    print(tpr)
+    print("--------------------------------------------------------------------------------------")
+    print("specifity")
+    s = tn / (tn + fp)
+    print(s)
+    print("--------------------------------------------------------------------------------------")
+    print("precision")
+    s = tp / (tp + fp)
+    print(s)
+'''
